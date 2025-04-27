@@ -1,4 +1,24 @@
+# C# / .NET build artifacts
 **/bin/
 **/obj/
-.vscode/
 study/template.cs
+
+# IDE / Editor settings
+.vscode/
+
+# Foundry build artifacts
+**/out/
+**/broadcast/
+**/cache/
+
+# Solidity compiler binaries
+**/solc-bin/
+
+# Environment variables
+**/.env
+
+# Node.js (frontend)
+**/node_modules/
+
+# Media files (optional: exclude large media)
+**/screen/*.mp4
