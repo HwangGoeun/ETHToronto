@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MemoContract Interaction</title>
+</head>
+<body>
+  <h1>MemoContract Interaction</h1>
+  
+  <button id="connect">Connect Wallet</button>
+  <br><br>
+  <input type="text" id="memoInput" placeholder="Enter your memo" />
+  <button id="setMemo">Set Memo</button>
+  <br><br>
+  <button id="getMemo">Get Memo</button>
+  <p id="memoOutput"></p>
+
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script>
+    const contractAddress = "0x0C447f6c10198532A6570673d10467F4eC7Ebd28";
+    const abi = [
+      "function setMemo(string _memo) public",
+      "function getMemo() public view returns (string)"
+    ];
+
+    let provider, signer, contract;
+
+    document.getElementById("connect").onclick = async () => {
+      if (window.ethereum) {
+        provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        signer = provider.getSigner();
+        contract = new ethers.Contract(contractAddress, abi, signer);
+        alert("Wallet connected!");
+      } else {
+        alert("Please install MetaMask!");
+      }
+    };
+
+    document.getElementById("setMemo").onclick = async () => {
+      const memo = document.getElementById("memoInput").value;
+      const tx = await contract.setMemo(memo);
+      await tx.wait();
+      alert("Memo set successfully!");
+    };
+
+    document.getElementById("getMemo").onclick = async () => {
+      const memo = await contract.getMemo();
+      document.getElementById("memoOutput").innerText = memo;
+    };
+  </script>
+</body>
+</html>
